@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zchy.lease.web.admin.mapper.ApartmentInfoMapper">
+
+    <select id="getListByPage" resultType="com.zchy.lease.web.admin.vo.apartment.ApartmentItemVo">
+
+        select apartment_info_table.id,
+               apartment_info_table.name,
+               apartment_info_table.introduction,
+               apartment_info_table.district_id,
+               apartment_info_table.district_name,
+               apartment_info_table.city_id,
+               apartment_info_table.city_name,
+               apartment_info_table.province_id,
+               apartment_info_table.province_name,
+               apartment_info_table.address_detail,
+               apartment_info_table.latitude,
+               apartment_info_table.longitude,
+               apartment_info_table.phone,
+               apartment_info_table.is_release,
+               apartment_info_table.create_time,
+               apartment_info_table.update_time,
+               apartment_info_table.is_deleted,
+               ifnull(room_count, 0)                          as total_room_count,
+               ifnull(room_count, 0) - ifnull(lease_count, 0) as free_room_count
+        from (select id,
+                     name,
+                     introduction,
+                     district_id,
+                     district_name,
+                     city_id,
+                     city_name,
+                     province_id,
+                     province_name,
+                     address_detail,
+                     latitude,
+                     longitude,
+                     phone,
+                     is_release,
+                     create_time,
+                     update_time,
+                     is_deleted
+              from apartment_info
+        <where>
+            is_deleted = 0
+            <if test="queryVo.districtId != null">
+                and district_id = #{queryVo.districtId}
+            </if>
+            <if test="queryVo.cityId != null">
+                and city_id = #{queryVo.cityId}
+            </if>
+            <if test="queryVo.provinceId != null">
+                and province_id = #{queryVo.provinceId}
+            </if>
+        </where>) as apartment_info_table
+                 left join
+             (select apartment_id,
+                     count(*) as room_count
+              from lease.room_info
+              where is_deleted = 0
+                and is_release = 1
+              group by apartment_id) as room_count_table
+             on apartment_info_table.id = room_count_table.apartment_id
+
+                 left join
+             (select apartment_id,
+                     count(*) as lease_count
+              from lease_agreement
+              where is_deleted = 0
+                and status in (2, 5)
+              group by apartment_id) as lease_count_table
+             on apartment_info_table.id = lease_count_table.apartment_id
+    </select>
+</mapper>
