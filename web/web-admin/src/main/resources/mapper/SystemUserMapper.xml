@@ -4,4 +4,47 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zchy.lease.web.admin.mapper.SystemUserMapper">
 
+    <select id="getAllList" resultType="com.zchy.lease.web.admin.vo.system.user.SystemUserItemVo">
+        select system_user.id,
+               system_user.username,
+               system_user.password,
+               system_user.name,
+               system_user.type,
+               system_user.phone,
+               system_user.avatar_url,
+               system_user.additional_info,
+               system_user.post_id,
+               system_user.status,
+               system_user.create_time,
+               system_user.update_time,
+               system_user.is_deleted,
+               system_post.name as post_name
+        from lease.system_user
+                 left join lease.system_post on system_user.post_id = system_post.id and system_post.is_deleted = 0
+        <where>
+            system_user.is_deleted = 0
+            <if test="queryVo.name != null">
+                and system_user.name like concat('%', #{queryVo.name}, '%')
+            </if>
+            <if test="queryVo.phone != null ">
+                and system_user.phone = #{queryVo.phone}
+            </if>
+        </where>
+    </select>
+    <select id="getPasswordByUserName" resultType="com.zchy.lease.model.entity.SystemUser">
+        select id,
+               username,
+               password,
+               name,
+               type,
+               phone,
+               avatar_url,
+               additional_info,
+               post_id,
+               status
+        from system_user
+        where username = #{username}
+          and is_deleted = 0
+    </select>
+
 </mapper>

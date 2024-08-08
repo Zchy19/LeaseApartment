@@ -1,14 +1,10 @@
 package com.zchy.lease.model.entity;
 
-import com.zchy.lease.model.enums.BaseStatus;
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.zchy.lease.model.enums.BaseStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Schema(description = "用户信息表")
 @TableName(value = "user_info")
@@ -30,7 +26,7 @@ public class UserInfo extends BaseEntity {
     private String avatarUrl;
 
     @Schema(description = "昵称")
-    @TableField(value = "nickname")
+    @TableField(value = "nickname", select = false)
     private String nickname;
 
     @Schema(description = "账号状态")
