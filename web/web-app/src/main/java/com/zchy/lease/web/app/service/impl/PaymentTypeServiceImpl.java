@@ -4,7 +4,10 @@ import com.zchy.lease.model.entity.PaymentType;
 import com.zchy.lease.web.app.mapper.PaymentTypeMapper;
 import com.zchy.lease.web.app.service.PaymentTypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author liubo
@@ -15,6 +18,14 @@ import org.springframework.stereotype.Service;
 public class PaymentTypeServiceImpl extends ServiceImpl<PaymentTypeMapper, PaymentType>
     implements PaymentTypeService{
 
+    @Autowired
+    private PaymentTypeMapper paymentTypeMapper;
+
+    @Override
+    public List<PaymentType> getListByRoomId(Long id) {
+        List<PaymentType> list = paymentTypeMapper.getListByRoomId(id);
+        return list;
+    }
 }
 
 

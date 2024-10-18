@@ -3,9 +3,9 @@ server:
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.3.83:3306/lease?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
+    url: jdbc:mysql://20.205.133.121:3306/lease?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
     username: root
-    password: Zch3284912?
+    password: 123456
     hikari:
       connection-test-query: SELECT 1 # 自动检测连接
       connection-timeout: 60000 #数据库连接超时时间,默认30秒
@@ -16,9 +16,10 @@ spring:
       pool-name: SPHHikariPool # 连接池名称
   data:
     redis:
-      host: 192.168.3.83
+      host: 20.205.133.121
       port: 6379
       database: 0
+      password: 123456
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss
 #    time-zone: GMT+8
@@ -28,12 +29,12 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 minio:
-  endpoint: http://192.168.3.83:9000 #http://<hostname>:<port>
+  endpoint: http://20.205.133.121:9000 #http://<hostname>:<port>
   access-key: root
   secret-key: 12345678
   bucket-name: lease
 springdoc:
   default-flat-param-object: true
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: debug

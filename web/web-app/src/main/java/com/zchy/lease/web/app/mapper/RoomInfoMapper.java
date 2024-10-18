@@ -1,13 +1,13 @@
 package com.zchy.lease.web.app.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zchy.lease.model.entity.RoomInfo;
 import com.zchy.lease.web.app.vo.room.RoomItemVo;
 import com.zchy.lease.web.app.vo.room.RoomQueryVo;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @author liubo
@@ -17,4 +17,7 @@ import java.math.BigDecimal;
 */
 public interface RoomInfoMapper extends BaseMapper<RoomInfo> {
 
+    List<RoomItemVo> getAllList(Page<RoomItemVo> page, RoomQueryVo queryVo);
+
+    BigDecimal selectMinRentByApartmentId(Long id);
 }
