@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zchy.lease.web.admin.mapper.LabelInfoMapper">
+
+    <select id="getByApartmentId" resultType="com.zchy.lease.model.entity.LabelInfo">
+        select type, name, id
+        from lease.label_info
+        where is_deleted = 0
+          and label_info.id in (select label_id
+                                   from lease.apartment_label
+                                   where apartment_id = #{id}
+                                     and is_deleted = 0)
+    </select>
+</mapper>

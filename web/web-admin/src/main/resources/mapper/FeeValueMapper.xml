@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zchy.lease.web.admin.mapper.FeeValueMapper">
+
+    <select id="getByApartmentId" resultType="com.zchy.lease.web.admin.vo.fee.FeeValueVo">
+        select fv.id,
+            fv.fee_key_id,
+            fv.name,
+            fv.unit,
+            fk.name fee_key_name
+        from lease.fee_key fk
+        join lease.fee_value fv on fk.id = fv.fee_key_id
+        where fk.is_deleted = 0
+        and fv.is_deleted = 0
+        and fv.id in (select fee_value_id
+                        from lease.apartment_fee_value
+                        where apartment_id = #{id}
+                        and is_deleted = 0)
+
+    </select>
+
+</mapper>
