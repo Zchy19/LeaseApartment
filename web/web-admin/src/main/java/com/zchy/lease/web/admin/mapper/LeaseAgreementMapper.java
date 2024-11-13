@@ -4,6 +4,10 @@ package com.zchy.lease.web.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zchy.lease.model.entity.LeaseAgreement;
+import com.zchy.lease.web.admin.vo.agreement.AgreementQueryVo;
+import com.zchy.lease.web.admin.vo.agreement.AgreementVo;
+
+import java.util.List;
 
 /**
 * @author liubo
@@ -13,6 +17,7 @@ import com.zchy.lease.model.entity.LeaseAgreement;
 */
 public interface LeaseAgreementMapper extends BaseMapper<LeaseAgreement> {
 
+    List<AgreementVo> getAllList(IPage<AgreementVo> page, AgreementQueryVo queryVo);
 }
 
 

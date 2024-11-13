@@ -3,7 +3,12 @@ package com.zchy.lease.web.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zchy.lease.model.entity.ViewAppointment;
+import com.zchy.lease.web.admin.vo.appointment.AppointmentQueryVo;
+import com.zchy.lease.web.admin.vo.appointment.AppointmentVo;
+
+import java.util.List;
 
 /**
 * @author liubo
@@ -13,6 +18,7 @@ import com.zchy.lease.model.entity.ViewAppointment;
 */
 public interface ViewAppointmentMapper extends BaseMapper<ViewAppointment> {
 
+    List<AppointmentVo> getAllList(Page<AppointmentVo> page, AppointmentQueryVo queryVo);
 }
 
 
