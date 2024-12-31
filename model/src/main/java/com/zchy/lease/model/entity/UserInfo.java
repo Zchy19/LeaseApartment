@@ -26,7 +26,7 @@ public class UserInfo extends BaseEntity {
     private String avatarUrl;
 
     @Schema(description = "昵称")
-    @TableField(value = "nickname", select = false)
+    @TableField(value = "nickname")
     private String nickname;
 
     @Schema(description = "账号状态")

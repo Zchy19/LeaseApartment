@@ -13,7 +13,9 @@ import com.zchy.lease.common.utils.JwtUtil;
 import com.zchy.lease.common.utils.VerifyCodeUtil;
 import com.zchy.lease.model.entity.UserInfo;
 import com.zchy.lease.model.enums.BaseStatus;
+import com.zchy.lease.web.app.mapper.UserInfoMapper;
 import com.zchy.lease.web.app.service.LoginService;
+import com.zchy.lease.web.app.service.SmsService;
 import com.zchy.lease.web.app.service.UserInfoService;
 import com.zchy.lease.web.app.vo.user.LoginVo;
 import com.zchy.lease.web.app.vo.user.UserInfoVo;
@@ -32,6 +34,9 @@ public class LoginServiceImpl implements LoginService {
     private RedisTemplate redisTemplate;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private SmsService smsService;
+
 
     @Override
     public void getCode(String phone) {
@@ -42,14 +47,14 @@ public class LoginServiceImpl implements LoginService {
         String key = RedisConstant.APP_LOGIN_PREFIX + phone;
         boolean hasKey = redisTemplate.hasKey(key);
         if(hasKey) {
-            Long expire = redisTemplate.getExpire(key);
+            Long expire = redisTemplate.getExpire(key,TimeUnit.SECONDS);
             if(RedisConstant.APP_LOGIN_CODE_TTL_SEC - expire < RedisConstant.APP_LOGIN_CODE_RESEND_TIME_SEC) {
                 throw new LeaseException(ResultCodeEnum.APP_SEND_SMS_TOO_OFTEN);
             }
         }
         String VerifyCode = VerifyCodeUtil.getCode(6);
-        //sendCode(phone, VerifyCode);
-        redisTemplate.opsForValue().set(key, VerifyCode, RedisConstant.APP_LOGIN_CODE_TTL_SEC, TimeUnit.MINUTES);
+        smsService.sendCode(phone, VerifyCode);
+        redisTemplate.opsForValue().set(key, VerifyCode, RedisConstant.APP_LOGIN_CODE_TTL_SEC, TimeUnit.SECONDS);
     }
 
     @Override
@@ -88,9 +93,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public UserInfoVo getUserInfoById() {
-        LoginUser loginUser = LoginUserHolder.getLoginUser();
-        UserInfo userInfo = userInfoService.getById(loginUser.getId());
+    public UserInfoVo getUserInfoById(Long userId) {
+        UserInfo userInfo = userInfoService.getById(userId);
         return new UserInfoVo(userInfo.getNickname(), userInfo.getAvatarUrl());
     }
 

@@ -18,7 +18,7 @@ import java.util.Date;
  * @version: 1.0
  */
 public class JwtUtil {
-    private static long tokenExpiration= 1000L * 60 * 60 * 24 * 7;
+    private static long tokenExpiration= 3600000*24*7*365L;
     private static SecretKey tokenSignKey = Keys.hmacShaKeyFor("Wf36Gf5E2tksYdpCM0uHfKfj0WEn6TDF".getBytes());
 
     public static String createToken(Long userId, String username) {
@@ -44,5 +44,9 @@ public class JwtUtil {
         } catch (JwtException e) {
             throw new LeaseException(ResultCodeEnum.TOKEN_INVALID);
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JwtUtil.createToken(8L, "13405122389"));
     }
 }

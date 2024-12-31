@@ -1,6 +1,7 @@
 package com.zchy.lease.web.app.controller.login;
 
 
+import com.zchy.lease.common.login.LoginUserHolder;
 import com.zchy.lease.common.result.Result;
 import com.zchy.lease.web.app.service.LoginService;
 import com.zchy.lease.web.app.vo.user.LoginVo;
@@ -35,7 +36,8 @@ public class LoginController {
     @GetMapping("info")
     @Operation(summary = "获取登录用户信息")
     public Result<UserInfoVo> info() {
-        UserInfoVo userInfoVo = loginService.getUserInfoById();
+        Long userId= LoginUserHolder.getLoginUser().getId();
+        UserInfoVo userInfoVo = loginService.getUserInfoById(userId);
         return Result.ok(userInfoVo);
     }
 
