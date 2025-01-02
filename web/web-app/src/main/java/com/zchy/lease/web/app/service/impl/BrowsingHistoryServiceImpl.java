@@ -34,7 +34,6 @@ public class BrowsingHistoryServiceImpl extends ServiceImpl<BrowsingHistoryMappe
     @Override
     @Async
     public void saveHistory(Long userId, Long id) {
-        System.out.println("保存浏览历史"+Thread.currentThread().getName());
 
         LambdaUpdateWrapper<BrowsingHistory> queryWrapper = new LambdaUpdateWrapper<>();
         queryWrapper.eq(BrowsingHistory::getUserId,userId);

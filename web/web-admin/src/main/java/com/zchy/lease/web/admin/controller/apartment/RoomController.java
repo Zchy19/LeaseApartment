@@ -27,8 +27,6 @@ public class RoomController {
     @Autowired
     private RoomInfoService roomInfoService;
 
-    //TODO 完成房间管理接口的实现
-
     @Operation(summary = "保存或更新房间信息")
     @PostMapping("saveOrUpdate")
     public Result saveOrUpdate(@RequestBody RoomSubmitVo roomSubmitVo) {

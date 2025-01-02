@@ -6,19 +6,17 @@ import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zchy.lease.common.constant.RedisConstant;
 import com.zchy.lease.common.exception.LeaseException;
-import com.zchy.lease.common.login.LoginUser;
-import com.zchy.lease.common.login.LoginUserHolder;
 import com.zchy.lease.common.result.ResultCodeEnum;
 import com.zchy.lease.common.utils.JwtUtil;
 import com.zchy.lease.common.utils.VerifyCodeUtil;
 import com.zchy.lease.model.entity.UserInfo;
 import com.zchy.lease.model.enums.BaseStatus;
-import com.zchy.lease.web.app.mapper.UserInfoMapper;
 import com.zchy.lease.web.app.service.LoginService;
 import com.zchy.lease.web.app.service.SmsService;
 import com.zchy.lease.web.app.service.UserInfoService;
 import com.zchy.lease.web.app.vo.user.LoginVo;
 import com.zchy.lease.web.app.vo.user.UserInfoVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -27,11 +25,12 @@ import org.springframework.util.StringUtils;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class LoginServiceImpl implements LoginService {
     @Autowired
     private Client client;
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private UserInfoService userInfoService;
     @Autowired
@@ -52,9 +51,10 @@ public class LoginServiceImpl implements LoginService {
                 throw new LeaseException(ResultCodeEnum.APP_SEND_SMS_TOO_OFTEN);
             }
         }
-        String VerifyCode = VerifyCodeUtil.getCode(6);
-        smsService.sendCode(phone, VerifyCode);
-        redisTemplate.opsForValue().set(key, VerifyCode, RedisConstant.APP_LOGIN_CODE_TTL_SEC, TimeUnit.SECONDS);
+        String verifyCode = VerifyCodeUtil.getCode(6);
+        log.info("手机号码验证码登录 verifyCode: {}", verifyCode);
+        smsService.sendCode(phone, verifyCode);
+        redisTemplate.opsForValue().set(key, verifyCode, RedisConstant.APP_LOGIN_CODE_TTL_SEC, TimeUnit.SECONDS);
     }
 
     @Override
