@@ -11,7 +11,7 @@ import com.zchy.lease.web.app.vo.room.RoomQueryVo;
 /**
 * @author liubo
 * @description 针对表【room_info(房间信息表)】的数据库操作Service
-* @createDate 2023-07-26 11:12:39
+* @createDate 2024-11-03 11:12:39
 */
 public interface RoomInfoService extends IService<RoomInfo> {
     IPage<RoomItemVo> pageItem(Page<RoomItemVo> page, RoomQueryVo queryVo);

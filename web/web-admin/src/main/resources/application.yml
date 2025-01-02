@@ -28,12 +28,12 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 minio:
-  endpoint: http://192.168.3.83:9000 #http://<hostname>:<port>
-  access-key: root
-  secret-key: 12345678
+  endpoint: http://192.168.2.190:9000 #http://<hostname>:<port>
+  access-key: minioadmin
+  secret-key: minioadmin
   bucket-name: lease
 springdoc:
   default-flat-param-object: true
 logging:
   level:
-    root: debug
+    root: info

@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author liubo
  * @description 针对表【lease_agreement(租约信息表)】的数据库操作Service实现
- * @createDate 2023-07-24 15:48:00
+ * @createDate 2024-11-03 15:48:00
  */
 @Service
 public class LeaseAgreementServiceImpl extends ServiceImpl<LeaseAgreementMapper, LeaseAgreement>
